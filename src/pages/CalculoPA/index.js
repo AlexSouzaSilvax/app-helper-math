@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import { Text, Spinner, Item, Input } from 'native-base';
 import Header from '../../components/Header';
@@ -13,6 +13,7 @@ export default function CalculaPA({ navigation }) {
     const [a3, setA3] = useState('');
     const [n, setN] = useState('');
     const [aN, setAN] = useState('');
+    const [telaResult, setTelaResult] = useState(false);
 
     useEffect(() => {
         async function fetchFont() {
@@ -38,17 +39,39 @@ export default function CalculaPA({ navigation }) {
             setA3('');
             setN('');
             setAN('');
+            setTelaResult(false);
             setLoading(false);
         }
 
         await limparCamposs();
     }
 
+    async function calcTermoPA() {
+
+        function calcTermoPAA() {
+            
+            let aa1 = parseInt(a1);
+            let aa2 = parseInt(a2);
+            let nn = parseInt(n);
+
+            let r = (aa2 - aa1);
+
+            setAN(aa1 + (nn - 1) * r);
+
+            setTelaResult(true);
+        }
+
+        await calcTermoPAA();
+    }
+
     if (loading) {
         return (
-            <View style={styles.viewLoading}>
-                <Spinner size="large" color={'#AAAAA'} />
-                <Text>Carregando...</Text>
+            <View style={styles.content}>
+                <Header voltar="Principal" limparTela={limparCampos} />
+                <View style={styles.viewLoading}>
+                    <Spinner size="large" color={'#AAAAA'} />
+                    <Text>Carregando...</Text>
+                </View>
             </View>
         );
     } else {
@@ -105,36 +128,41 @@ export default function CalculaPA({ navigation }) {
 
                 </View>
 
+                <Text style={styles.textoPA}>{a3 ? `P.A(${a1},${a2},${a3})` : ''}</Text>
 
-                {a3 ?
-
+                {telaResult ? null :
                     <View>
-                        <Text style={styles.textoPA}>{`P.A(${a1},${a2},${a3})`}</Text>
+                        {a3 ?
+                            <View>
+                                <Text style={styles.textoTermoCalc}>Termo à ser calculado ?</Text>
+                                <Item style={styles.inputTermoCalc}>
+                                    <Input
+                                        placeholder="Ex: 100"
+                                        keyboardType="numeric"
+                                        value={`${n}`}
+                                        onChangeText={(n) => { setN(n) }}
+                                    />
+                                </Item>
 
-                        <Text style={styles.textoTermoCalc}>Termo à ser calculado ?</Text>
-                        <Item style={styles.inputTermoCalc}>
-                            <Input
-                                keyboardType="numeric"
-                                value={`${n}`}
-                                onChangeText={(n) => {
-                                    setN(n);
+                                <View>
+                                    {n ?
+                                        <TouchableOpacity style={styles.btnCalcTermoPA} onPress={calcTermoPA}>
+                                            <Text style={styles.textoCalc}>Calcular</Text>
+                                        </TouchableOpacity>
+                                        : null}
+                                </View>
+                            </View>
+                            : null}
+                    </View>
+                }
 
-                                    let aa1 = parseInt(a1);
-                                    let aa2 = parseInt(a2);
-                                    let nn = parseInt(n);
-
-                                    let r = (aa2 - aa1);
-
-                                    setAN(aa1 + (nn - 1) * r);
-
-                                }}
-                            />
-                        </Item>
-
+                {telaResult ?
+                    <View style={styles.content}>
+                        <Text style={styles.textoTermoCalc}>Resultado:</Text>
                         <Text style={styles.textoResultAN}>{`${aN ? aN : ''}`}</Text>
-
                     </View>
                     : null}
+
 
             </View>
         );
@@ -153,7 +181,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     titulo: {
-        fontSize: 20,
+        fontSize: 18,
         color: '#444',
         alignSelf: 'center',
         marginTop: 10
@@ -193,5 +221,22 @@ const styles = StyleSheet.create({
         color: '#46C230',
         fontSize: 50,
         marginTop: 20
-    }
+    },
+    btnCalcTermoPA: {
+        height: 35,
+        width: 100,
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#444444',
+        marginTop: 20
+    },
+    textoCalc: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        alignSelf: 'center',
+        color: '#444444'
+    },
 });

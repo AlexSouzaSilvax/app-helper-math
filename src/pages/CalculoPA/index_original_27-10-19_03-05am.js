@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import { Text, Spinner, Item, Input } from 'native-base';
 import Header from '../../components/Header';
 
-export default function CalculaPG({ navigation }) {
+export default function CalculaPA({ navigation }) {
 
     const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,6 @@ export default function CalculaPG({ navigation }) {
     const [a3, setA3] = useState('');
     const [n, setN] = useState('');
     const [aN, setAN] = useState('');
-    const [telaResult, setTelaResult] = useState(false);
 
     useEffect(() => {
         async function fetchFont() {
@@ -39,37 +38,25 @@ export default function CalculaPG({ navigation }) {
             setA3('');
             setN('');
             setAN('');
-            setTelaResult(false);
             setLoading(false);
         }
 
         await limparCamposs();
     }
 
-    async function calcTermoPG() {
+    async function calcTermoPA() {
 
-        function calcTermoPGG() {
+        function calcTermoPAA() {
+            let aa1 = parseInt(a1);
+            let aa2 = parseInt(a2);
+            let nn = parseInt(n);
 
-            let aa1 = parseInt(a1);//4
-            let aa2 = parseInt(a2);//12
-            let nn = parseInt(n);//8                                    
+            let r = (aa2 - aa1);
 
-            let q = (aa2 / aa1);//3
-            //console.log(q);
-
-            nn = (nn - 1);
-            //console.log(nn);//7
-
-            let qElevadoN = Math.pow(q, nn);//2.187
-            //console.log(qElevadoN);
-
-            let ann = aa1 * qElevadoN;
-            setAN(ann);
-
-            setTelaResult(true);
+            setAN(aa1 + (nn - 1) * r);
         }
 
-        await calcTermoPGG();
+        await calcTermoPAA();
     }
 
     if (loading) {
@@ -87,7 +74,7 @@ export default function CalculaPG({ navigation }) {
             <View style={styles.content}>
                 <Header voltar="Principal" limparTela={limparCampos} />
 
-                <Text style={styles.titulo}>Calculando Termo Progressão Geométrica</Text>
+                <Text style={styles.titulo}>Calculando Termo Progressão Aritmética</Text>
 
                 <Text style={styles.tituloTermos}>Termos</Text>
                 <View style={styles.viewTermos}>
@@ -115,7 +102,7 @@ export default function CalculaPG({ navigation }) {
                                 let aa1 = parseInt(a1);
                                 let aa2 = parseInt(a2);
 
-                                let aa3 = aa2 * (aa2 / aa1);
+                                let aa3 = aa2 + (aa2 - aa1);
 
                                 setA3(aa3);
 
@@ -136,42 +123,33 @@ export default function CalculaPG({ navigation }) {
 
                 </View>
 
-                <Text style={styles.textoPG}>{a3 ? `P.A(${a1},${a2},${a3})` : ''}</Text>
 
-                {telaResult ? null :
+                {a3 ?
+
                     <View>
-                        {a3 ?
-                            <View>
-                                <Text style={styles.textoTermoCalc}>Termo à ser calculado ?</Text>
-                                <Item style={styles.inputTermoCalc}>
-                                    <Input
-                                        placeholder="Ex: 8"
-                                        keyboardType="numeric"
-                                        value={`${n}`}
-                                        onChangeText={(n) => { setN(n) }}
-                                    />
-                                </Item>
+                        <Text style={styles.textoPA}>{`P.A(${a1},${a2},${a3})`}</Text>
 
-                                <View>
-                                    {n ?
-                                        <TouchableOpacity style={styles.btnCalcTermoPG} onPress={calcTermoPG}>
-                                            <Text style={styles.textoCalc}>Calcular</Text>
-                                        </TouchableOpacity>
-                                        : null}
-                                </View>
+                        <Text style={styles.textoTermoCalc}>Termo à ser calculado ?</Text>
+                        <Item style={styles.inputTermoCalc}>
+                            <Input
+                                placeholder="Ex: 100"
+                                keyboardType="numeric"
+                                value={`${n}`}
+                                onChangeText={(n) => { setN(n) }}
+                            />
+                        </Item>
+
+                        {n ?
+                            <View>
+                                <TouchableOpacity style={styles.btnCalcTermoPA} onPress={calcTermoPA}>
+                                    <Text style={styles.textoCalc}>Calcular</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.textoResultAN}>{`${aN ? aN : ''}`}</Text>
                             </View>
                             : null}
-                    </View>
-                }
 
-                {telaResult ?
-                    <View style={styles.content}>
-                        <Text style={styles.textoTermoCalc}>Resultado:</Text>
-                        <Text style={styles.textoResultAN}>{`${aN ? aN : ''}`}</Text>
                     </View>
                     : null}
-
-
             </View>
         );
     }
@@ -208,7 +186,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         margin: 15
     },
-    textoPG: {
+    textoPA: {
         alignSelf: 'center',
         fontWeight: 'bold',
         fontSize: 22,
@@ -230,7 +208,7 @@ const styles = StyleSheet.create({
         fontSize: 50,
         marginTop: 20
     },
-    btnCalcTermoPG: {
+    btnCalcTermoPA: {
         height: 35,
         width: 100,
         backgroundColor: '#FFFFFF',
