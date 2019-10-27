@@ -9,10 +9,10 @@ export default function Principal({ navigation }) {
 
     const [calculos] = useState([
         {
-            id: '0', apelido: 'Calc PA', nome: 'Cálculo Progressão Aritmética', formula: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7P3xjmlG2rSsb270Qs0n68IyDZ9VRQAY2NPx4E6wyCEeSFNNpAQ&s', tela: 'CalculoPA'
+            id: '0', apelido: 'Calc P.A', nome: 'Calculo Progressão Aritmética', formula: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7P3xjmlG2rSsb270Qs0n68IyDZ9VRQAY2NPx4E6wyCEeSFNNpAQ&s', tela: 'CalculoPA'
         },
         {
-            id: '1', apelido: 'Calc PG', nome: 'Cálculo Progressão Geométrica', formula: 'https://pbs.twimg.com/media/EH05LfxWwAEN1I5?format=png&name=240x240', tela: 'CalculoPG'
+            id: '1', apelido: 'Calc P.G', nome: 'Calculo Progressão Geométrica', formula: 'https://pbs.twimg.com/media/EH05LfxWwAEN1I5?format=png&name=240x240', tela: 'CalculoPG'
         },
     ]);
 

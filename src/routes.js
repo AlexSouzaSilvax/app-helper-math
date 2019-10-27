@@ -6,7 +6,7 @@ import CalculoPG from './pages/CalculoPG';
 
 const Routes = createAppContainer(
     createSwitchNavigator({
-        //Principal,
+        Principal,
         CalculoPA,
         CalculoPG,
     })
