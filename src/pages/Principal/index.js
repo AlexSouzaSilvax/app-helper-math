@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
+import { View, FlatList, StyleSheet } from 'react-native';
 
 import Header from '../../components/Header';
 import CardCalculos from '../../components/CardCalculos';
@@ -17,7 +16,6 @@ export default function Principal({ navigation }) {
     ]);
 
     return (
-        //<SafeAreaView style={styles.content}> para devices que tem borda no header
         <View style={styles.content}>
             <Header titulo="helper math" />
 
