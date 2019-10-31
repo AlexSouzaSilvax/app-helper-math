@@ -14,6 +14,7 @@ export default function CalculaPA({ navigation }) {
     const [n, setN] = useState('');
     const [aN, setAN] = useState('');
     const [telaResult, setTelaResult] = useState(false);
+    const [disabledViewTermos, setDisabledViewTermos] = useState();
 
     useEffect(() => {
         async function fetchFont() {
@@ -41,6 +42,7 @@ export default function CalculaPA({ navigation }) {
             setAN('');
             setTelaResult(false);
             setLoading(false);
+            setDisabledViewTermos('');
         }
 
         await limparCamposs();
@@ -49,7 +51,7 @@ export default function CalculaPA({ navigation }) {
     async function calcTermoPA() {
 
         function calcTermoPAA() {
-            
+
             let aa1 = parseInt(a1);
             let aa2 = parseInt(a2);
             let nn = parseInt(n);
@@ -57,6 +59,8 @@ export default function CalculaPA({ navigation }) {
             let r = (aa2 - aa1);
 
             setAN(aa1 + (nn - 1) * r);
+
+            setDisabledViewTermos(true);
 
             setTelaResult(true);
         }
@@ -81,52 +85,59 @@ export default function CalculaPA({ navigation }) {
 
                 <Text style={styles.titulo}>Calculando Termo Progressão Aritmética</Text>
 
-                <Text style={styles.tituloTermos}>Termos</Text>
-                <View style={styles.viewTermos}>
+                {disabledViewTermos ?
+                    <Text style={{ marginTop: 20 }} />
+                    :
+                    <View>
+                        <Text style={styles.tituloTermos}>Termos</Text>
+                        <View style={styles.viewTermos}>
 
-                    <Item style={styles.itemTermo}>
-                        <Input
-                            style={styles.input}
-                            placeholder="1º termo"
-                            keyboardType="numeric"
-                            value={`${a1}`}
-                            onChangeText={(a1) => setA1(a1)}
-                        />
-                    </Item>
+                            <Item style={styles.itemTermo}>
+                                <Input
+                                    style={styles.input}
+                                    placeholder="1º termo"
+                                    keyboardType="numeric"
+                                    value={`${a1}`}
+                                    onChangeText={(a1) => setA1(a1)}
+                                />
+                            </Item>
 
-                    <Item style={styles.itemTermo}>
-                        <Input
-                            disabled={a1 ? false : true}
-                            style={styles.input}
-                            placeholder="2º termo"
-                            keyboardType="numeric"
-                            value={`${a2}`}
-                            onChangeText={(a2) => {
-                                setA2(a2);
+                            <Item style={styles.itemTermo}>
+                                <Input
+                                    disabled={a1 ? false : true}
+                                    style={styles.input}
+                                    placeholder="2º termo"
+                                    keyboardType="numeric"
+                                    value={`${a2}`}
+                                    onChangeText={(a2) => {
+                                        setA2(a2);
 
-                                let aa1 = parseInt(a1);
-                                let aa2 = parseInt(a2);
+                                        let aa1 = parseInt(a1);
+                                        let aa2 = parseInt(a2);
 
-                                let aa3 = aa2 + (aa2 - aa1);
+                                        let aa3 = aa2 + (aa2 - aa1);
 
-                                setA3(aa3);
+                                        setA3(aa3);
 
-                            }}
-                        />
-                    </Item>
+                                    }}
+                                />
+                            </Item>
 
-                    <Item style={styles.itemTermo}>
-                        <Input
-                            style={styles.input}
-                            placeholder="3º termo"
-                            keyboardType="numeric"
-                            value={`${a2 ? a3 : ''}`}
-                            onChangeText={(a3) => setA3(a3)}
-                            disabled
-                        />
-                    </Item>
+                            <Item style={styles.itemTermo}>
+                                <Input
+                                    style={styles.input}
+                                    placeholder="3º termo"
+                                    keyboardType="numeric"
+                                    value={`${a2 ? a3 : ''}`}
+                                    onChangeText={(a3) => setA3(a3)}
+                                    disabled
+                                />
+                            </Item>
 
-                </View>
+                        </View>
+
+                    </View>
+                }
 
                 <Text style={styles.textoPA}>{a3 ? `P.A(${a1},${a2},${a3})` : ''}</Text>
 
