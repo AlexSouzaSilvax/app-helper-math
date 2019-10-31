@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
     viewLoading: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FFFFFF'
     },
     titulo: {
         fontSize: 18,
